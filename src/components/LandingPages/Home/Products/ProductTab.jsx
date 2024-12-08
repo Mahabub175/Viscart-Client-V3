@@ -59,7 +59,7 @@ const ProductTab = () => {
   };
 
   return (
-    <section className="my-container relative">
+    <section className="container mx-auto lg:px-5 relative">
       <div className="flex flex-col lg:flex-row items-center justify-between border-b">
         <Tabs
           activeKey={activeTab}
@@ -82,9 +82,9 @@ const ProductTab = () => {
             modules={[Navigation, Pagination, Autoplay]}
             spaceBetween={20}
             loop={true}
-            slidesPerView={1}
+            slidesPerView={2}
             breakpoints={{
-              640: { slidesPerView: 1 },
+              640: { slidesPerView: 2 },
               768: { slidesPerView: 2 },
               1024: { slidesPerView: 4 },
             }}

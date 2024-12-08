@@ -3,7 +3,7 @@
 import { useGetAllBrandsQuery } from "@/redux/services/brand/brandApi";
 import { useGetAllCategoriesQuery } from "@/redux/services/category/categoryApi";
 import { useGetProductsQuery } from "@/redux/services/product/productApi";
-import { Pagination, Slider, Checkbox, Select } from "antd";
+import { Pagination, Slider, Checkbox, Select, Button, Modal } from "antd";
 import { useState } from "react";
 import { paginationNumbers } from "@/assets/data/paginationData";
 import { useGetAllGlobalSettingQuery } from "@/redux/services/globalSetting/globalSettingApi";
@@ -18,6 +18,7 @@ const AllProducts = () => {
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [priceRange, setPriceRange] = useState([0, 10000]);
   const [sorting, setSorting] = useState("");
+  const [filterModal, setFilterModal] = useState(false);
 
   const { data: globalData } = useGetAllGlobalSettingQuery();
   const { data: brandData } = useGetAllBrandsQuery();
@@ -83,16 +84,15 @@ const AllProducts = () => {
       }
       return 0;
     });
-
   return (
-    <section className="container mx-auto px-5 py-10 relative -mt-10 lg:-mt-0">
-      <div className="bg-gray-200 flex items-center justify-between py-3 px-6 mb-6 rounded-xl">
-        <p>
+    <section className="container mx-auto lg:px-5 py-10 relative -mt-10 lg:-mt-0">
+      <div className="bg-gray-200 flex items-center gap-2 justify-between py-3 px-6 mb-6 rounded-xl">
+        <p className="text-sm lg:text-base">
           There are{" "}
           <span className="font-semibold">{filteredProducts?.length}</span>{" "}
           products showing.
         </p>
-        <div className="flex items-center gap-2 w-1/4">
+        <div className="flex items-center lg:w-1/4">
           <Select
             allowClear
             placeholder="Select Sorting"
@@ -103,9 +103,16 @@ const AllProducts = () => {
             <Option value="PriceHighToLow">Price High To Low</Option>
           </Select>
         </div>
+        <Button
+          type="primary"
+          className="lg:hidden"
+          onClick={() => setFilterModal(true)}
+        >
+          Advance Filter
+        </Button>
       </div>
       <div className="flex flex-col lg:flex-row gap-10 items-start">
-        <div className="w-full lg:w-1/4 p-4 border rounded-lg shadow-sm lg:sticky top-10">
+        <div className="w-full lg:w-1/4 p-4 border rounded-lg shadow-sm lg:sticky top-10 hidden lg:block">
           <h2 className="mb-4 text-lg font-semibold">Filter Products</h2>
           <div className="mb-6 border p-5 rounded-xl max-h-[500px] overflow-y-auto">
             <label className="block mb-2 font-semibold">Brands</label>
@@ -156,7 +163,7 @@ const AllProducts = () => {
           <div>
             {filteredProducts?.length > 0 ? (
               <>
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 overflow-x-hidden">
+                <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-10 overflow-x-hidden">
                   {filteredProducts?.map((product) => (
                     <ProductCard key={product?._id} item={product} />
                   ))}
@@ -180,6 +187,61 @@ const AllProducts = () => {
           </div>
         </div>
       </div>
+      <Modal
+        open={filterModal}
+        onCancel={() => setFilterModal(false)}
+        footer={null}
+        centered
+      >
+        {" "}
+        <div className="w-full p-4">
+          <h2 className="mb-4 text-lg font-semibold">Filter Products</h2>
+          <div className="mb-6 border p-5 rounded-xl max-h-[500px] overflow-y-auto">
+            <label className="block mb-2 font-semibold">Brands</label>
+            <Checkbox.Group
+              options={activeBrands?.map((brand) => ({
+                label: brand.name,
+                value: brand.name,
+              }))}
+              value={selectedBrands}
+              onChange={handleBrandChange}
+              className="flex flex-col gap-2"
+            />
+          </div>
+          <div className="mb-6 border p-5 rounded-xl max-h-[500px] overflow-y-auto">
+            <label className="block mb-2 font-semibold">Categories</label>
+            <Checkbox.Group
+              options={activeCategories?.map((category) => ({
+                label: category.name,
+                value: category.name,
+              }))}
+              value={selectedCategories}
+              onChange={handleCategoryChange}
+              className="flex flex-col gap-2"
+            />
+          </div>
+          <div className="mb-6">
+            <label className="block mb-2 font-semibold">Price Range</label>
+            <Slider
+              range
+              min={0}
+              max={10000}
+              defaultValue={[0, 10000]}
+              value={priceRange}
+              onChange={handlePriceChange}
+              step={50}
+              tooltip={{
+                formatter: (value) =>
+                  `${globalData?.results?.currency} ${value}`,
+              }}
+            />
+            <div className="flex justify-between mt-2 text-sm">
+              <span>{globalData?.results?.currency + " " + priceRange[0]}</span>
+              <span>{globalData?.results?.currency + " " + priceRange[1]}</span>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </section>
   );
 };

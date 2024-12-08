@@ -76,10 +76,10 @@ const QuickViewHover = ({ item }) => {
   };
 
   return (
-    <div className="flex items-center justify-center gap-4 px-3 py-4 bg-white lg:bg-transparent">
+    <div className="flex items-center justify-center gap-2 lg:gap-4 px-3 py-4 bg-white lg:bg-transparent">
       <Tooltip placement="top" title={"Quick View"}>
         <div
-          className="text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
+          className="lg:text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
           onClick={showModal}
         >
           <AiOutlineFullscreen />
@@ -89,7 +89,7 @@ const QuickViewHover = ({ item }) => {
       <Tooltip placement="top" title={"Details"}>
         <Link
           href={`/products/${item?.slug}`}
-          className="text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
+          className="lg:text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
         >
           <TbListDetails />
         </Link>
@@ -97,7 +97,7 @@ const QuickViewHover = ({ item }) => {
 
       <Tooltip placement="top" title={"Add to Wishlist"}>
         <div
-          className="text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
+          className="lg:text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
           onClick={() => addToWishlist(item?._id)}
         >
           <TbHeart />
@@ -106,7 +106,7 @@ const QuickViewHover = ({ item }) => {
 
       <Tooltip placement="top" title={"Add to Compare"}>
         <div
-          className="text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
+          className="lg:text-xl cursor-pointer hover:scale-110 duration-300 text-white bg-primary rounded-full p-2"
           onClick={() => addToCompare(item?._id)}
         >
           <FaCodeCompare className="rotate-90" />

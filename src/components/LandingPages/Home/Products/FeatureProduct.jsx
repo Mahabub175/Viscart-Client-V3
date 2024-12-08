@@ -43,7 +43,7 @@ const FeatureProduct = () => {
         className={`grid grid-cols-1 md:grid-cols-2 ${
           topCategories?.length
             ? `lg:grid-cols-${topCategories?.length}`
-            : "lg:grid-cols-2"
+            : "lg:grid-cols-1"
         } gap-8`}
       >
         {topCategories?.map((category) => (

@@ -29,13 +29,13 @@ const GlobalFilteredProducts = ({ searchParams }) => {
   if (!activeProducts?.length) return <p>No products available.</p>;
 
   return (
-    <div className="mt-10 lg:mt-0 py-10 relative my-container bg-white shadow-xl p-5 rounded-xl">
+    <div className="mt-10 lg:mt-0 py-10 relative container mx-auto lg:px-5 bg-white shadow-xl rounded-xl">
       {filteredProducts?.length ? (
         <>
           <div className="capitalize text-center text-3xl text-primary font-semibold">
             {searchParams}
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mt-10">
             {filteredProducts?.map((product) => (
               <ProductCard key={product?._id} item={product} />
             ))}
